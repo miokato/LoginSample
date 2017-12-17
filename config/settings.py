@@ -1,10 +1,15 @@
 import os
 from django.contrib.messages import constants as message_constants
 
+import custom_settings
+custom = custom_settings.load('settings_custom')
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = '10bhpr$y_lgajts&pyzh(s!uf$o99roa($&z26m*enmx0sq7ql'
+
+SECRET_KEY = custom.get('DJANGO_SECRET_KEY', use_environ=True, default='10bhpr$y_lgajts&pyzh(s!uf$o99roa($&z26m*enmx0sq7ql')
+
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 ROOT_URLCONF = 'config.urls'
 WSGI_APPLICATION = 'config.wsgi.application'
 LANGUAGE_CODE = 'ja'
@@ -68,12 +73,12 @@ TEMPLATES = [
 ]
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'HOST': 'localhost',
-        'NAME': 'fablab',
-        'USER': 'postgres',
-        'PASSWORD': '',
-        'PORT': 5432,
+        'ENGINE': custom.get('DBENGINE', use_environ=True, default='django.db.backends.postgresql'),
+        'HOST': custom.get('DBHOST', use_environ=True, default='localhost'),
+        'NAME': custom.get('DBNAME', use_environ=True, default='postgres'),
+        'USER': custom.get('DBUSER', use_environ=True, default='postgres'),
+        'PASSWORD': custom.get('DBPASSWORD', use_environ=True, default='postgres'),
+        'PORT': custom.get('DBPORT', use_environ=True, default=5432),
     }
 }
 AUTH_PASSWORD_VALIDATORS = [
