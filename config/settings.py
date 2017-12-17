@@ -26,13 +26,17 @@ LOGIN_REDIRECT_URL = '/workshop/' # ログイン後のリダイレクト先
 LOGOUT_REDIRECT_URL = '/workshop/'
 
 # OAUTH
+# Twitter
 SOCIAL_AUTH_TWITTER_KEY = custom.get('TWITTER_KEY')
 SOCIAL_AUTH_TWITTER_SECRET = custom.get('TWITTER_SECRET')
-SOCIAL_AUTH_TWITTER_SCOPE = ['email']
+# Facebook
+SOCIAL_AUTH_FACEBOOK_KEY = custom.get('FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SECRET = custom.get('FACEBOOK_SECRET')
 
 AUTHENTICATION_BACKENDS = [
     #'accounts.models.MyAuthenticate',
     'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
