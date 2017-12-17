@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <form action="" method="post">{% csrf_token %}
+          {{ form }}
+          <p>本当に{{ object.title }}を削除してもいいですか？</p>
+          <button class="btn btn-primary" type="submit" value="Confirm">削除</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+{% endblock content %}

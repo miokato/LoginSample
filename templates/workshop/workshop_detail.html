@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card-deck">
+          <div class="card text-center" style="width: 20rem;">
+            <h4 class="card-header">{{ object.title }}</h4>
+            <div class="card-body">
+              <p class="card-title">{{ object.duration_time }}</p>
+              <p class="card-text">{{ object.detail }}</p>
+              <a class="btn btn-primary" href="{% url 'ws:update' object.id %}">更新</a>
+              <a class="btn btn-primary" href="{% url 'ws:delete' object.id %}">削除</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
