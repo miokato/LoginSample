@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = custom.get('DJANGO_SECRET_KEY', use_environ=True, default='10bhpr$y_lgajts&pyzh(s!uf$o99roa($&z26m*enmx0sq7ql')
 
 DEBUG = True
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 ROOT_URLCONF = 'config.urls'
 WSGI_APPLICATION = 'config.wsgi.application'
 LANGUAGE_CODE = 'ja'
@@ -20,13 +20,19 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # 認証
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.FabLabUser'
 LOGIN_URL = '/workshop/' # ログインページ
 LOGIN_REDIRECT_URL = '/workshop/' # ログイン後のリダイレクト先
 LOGOUT_REDIRECT_URL = '/workshop/'
 
+# OAUTH
+SOCIAL_AUTH_TWITTER_KEY = custom.get('TWITTER_KEY')
+SOCIAL_AUTH_TWITTER_SECRET = custom.get('TWITTER_SECRET')
+SOCIAL_AUTH_TWITTER_SCOPE = ['email']
+
 AUTHENTICATION_BACKENDS = [
-    'accounts.models.MyAuthenticate',
+    #'accounts.models.MyAuthenticate',
+    'social_core.backends.twitter.TwitterOAuth',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
@@ -44,6 +50,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'social_django',
+
     'workshop',
     'accounts',
 ]
@@ -67,6 +76,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },

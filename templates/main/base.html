@@ -17,7 +17,7 @@
   {% endif %}
 
   <!-- ナビゲーション -->
-  {% if user.is_authenticated %}
+  {% if user and not user.is_anonymous %}
     {% include 'main/nav_authenticated.html' %}
   {% else %}
     {% include 'main/nav.html' %}
