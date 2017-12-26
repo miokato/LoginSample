@@ -59,6 +59,7 @@ INSTALLED_APPS = [
 
     'workshop',
     'accounts',
+    'machine',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

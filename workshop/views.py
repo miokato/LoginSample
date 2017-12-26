@@ -4,13 +4,19 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView, U
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse_lazy
+from django.utils.functional import cached_property
+
 from .models import Workshop
 from .forms import WorkshopForm
 
 
 class WorkShopListView(ListView):
-    template_name = 'workshop/workshop_list.html'
     model = Workshop
+
+    def dispatch(self, *args, **kwargs):
+        print('hello')
+
+        return super(WorkShopListView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -20,32 +26,33 @@ class WorkShopListView(ListView):
             return context
 
 
-class WorkshopDetailView(LoginRequiredMixin, DetailView):
-    template_name = 'workshop/workshop_detail.html'
-    model = Workshop
-
-
-class WorkshopCreateView(LoginRequiredMixin, CreateView):
-    template_name = 'workshop/workshop_form.html'
-    model = Workshop
-    form_class = WorkshopForm
+class WorkshopActionMixin:
+    @property
+    def success_msg(self):
+        return NotImplemented
 
     def form_valid(self, form):
         pre = form.save(commit=False)
         pre.user = self.request.user
         pre.save()
-        messages.info(self.request, '作成しました')
+        messages.info(self.request, self.success_msg)
         return redirect('ws:list')
 
 
-class WorkshopUpdateView(LoginRequiredMixin, UpdateView):
-    template_name = 'workshop/workshop_form.html'
+class WorkshopCreateView(LoginRequiredMixin, WorkshopActionMixin, CreateView):
     model = Workshop
     form_class = WorkshopForm
+    success_msg = '作成しました！'
 
-    def get_success_url(self):
-        messages.info(self.request, '更新しました')
-        return reverse_lazy('ws:list')
+
+class WorkshopUpdateView(LoginRequiredMixin, WorkshopActionMixin, UpdateView):
+    model = Workshop
+    form_class = WorkshopForm
+    success_msg = '更新しました！'
+
+
+class WorkshopDetailView(LoginRequiredMixin, DetailView):
+    model = Workshop
 
 
 class WorkshopDeleteView(LoginRequiredMixin, DeleteView):

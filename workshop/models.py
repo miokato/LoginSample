@@ -7,7 +7,7 @@ class Workshop(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=40)
     detail = models.TextField()
-    do_date = models.DateField(default=timezone.now())
+    do_date = models.DateField(default=timezone.now)
     machines = (
         ('LC', 'レーザー加工機'),
         ('3D', '3Dプリンタ'),

@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>確認</h1>
+    <p>この内容でよろしいでしょうか。</p>
+    <form method="post">
+        {% csrf_token %}
+        <p>name: {{ form_data.name }}</p>
+        <p>color: {{ form_data.color }}</p>
+        <button type="submit" class="btn btn-primary">確定</button>
+        <a class="btn btn-primary" href="{% url 'machine:register' %}">戻る</a>
+    </form>
+
+</div>
+
+{% endblock content %}

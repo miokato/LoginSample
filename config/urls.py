@@ -19,6 +19,7 @@ from django.shortcuts import redirect
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^workshop/', include('workshop.urls')),
+    url(r'^workshop/', include('workshop.urls', namespace='ws')),
+    url(r'^machine/', include('machine.urls', namespace='machine')),
     url(r'^accounts/', include('accounts.urls')),
 ]
